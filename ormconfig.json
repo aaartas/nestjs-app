@@ -5,8 +5,8 @@
   "username": "test",
   "password": "radwimps123",
   "database": "todolist",
-  "entities": ["dist/entities/**/*.entity.js"],
-  "migrations": ["dist/migrations/**/*.js"],
+  "entities": ["dist/entities/**/*.entity.ts"],
+  "migrations": ["dist/migrations/**/*.ts"],
   "migrationsTableName": "custom_migration_table",
   "logging": false
 }

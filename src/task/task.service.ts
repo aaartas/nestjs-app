@@ -9,7 +9,7 @@ import { CreateTaskDTO } from './task.dto';
 @Injectable()
 export class TaskService {
   constructor(
-    @InjectRepository(Task) //DIコンテナが登録されたRepositoryを生成して渡してくれます。
+    @InjectRepository(Task) //DIコンテナが登録された
     private readonly taskRepository: Repository<Task>,
   ) {}
   //以下、CRUDのロジック。
