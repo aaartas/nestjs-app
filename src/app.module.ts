@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TaskModule } from './task/task.module';
+import { UsersModule } from './users/users.module';
 
 //Moduleは、ControllerやServiceの依存関係を管理します。moduleファイルに対して、ControllerやServiceを登録することで、そのControllerやServiceが使えるようになります。
 //Appモジュールがルートとなり、下位に各機能のモジュールが存在するイメージです。
@@ -21,6 +22,7 @@ import { TaskModule } from './task/task.module';
       logging: false,
     }),
     TaskModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
