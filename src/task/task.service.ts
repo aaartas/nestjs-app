@@ -1,20 +1,17 @@
-import { Injectable } from '@nestjs/common';
-import { Task } from 'src/entities/task.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Task } from './models/task.models';
 import { Repository, InsertResult, UpdateResult, DeleteResult } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateTaskDTO } from './task.dto';
 
-//Serviceでは、Controllerによりルーティングされたリクエストの処理を行います。
-//Serviceはtask.module.tsファイルのprovidersに登録することで、ControllerでServiceの定義を行えます。
-@Injectable() // @Injectable() デコレータの適用
+@Injectable()
 export class TaskService {
   constructor(
-    @InjectRepository(Task) //DIコンテナが登録された
+    @InjectRepository(Task)
     private readonly taskRepository: Repository<Task>,
   ) {}
-  //以下、CRUDのロジック。
+
   async findAll(): Promise<Task[]> {
-    // サービスが提供するビジネスロジックを定義
     return await this.taskRepository.find();
   }
 
@@ -22,8 +19,12 @@ export class TaskService {
     return await this.taskRepository.insert(Task);
   }
 
-  async find(id: number): Promise<Task> | null {
-    return await this.taskRepository.findOne({ task_id: id });
+  async find(id: string): Promise<Task> | null {
+    const result = await this.taskRepository.findOne({ task_id: id });
+    if (!result) {
+      throw new NotFoundException();
+    }
+    return result;
   }
 
   async update(id: number, Task): Promise<UpdateResult> {

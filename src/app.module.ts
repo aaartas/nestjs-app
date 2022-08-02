@@ -6,6 +6,10 @@ import { TaskModule } from './task/task.module';
 import { UsersModule } from './users/users.module';
 import { LoggerMiddleware } from './middleware/logger.middleware'; //これは自動追加されない
 //ミドルウェアの利用のためには、MiddlewareConsumer,NestModule,LoggerMiddlewareが必要
+import { join } from 'path';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { TodoModule } from './todo/todo.module';
 
 //Moduleは、ControllerやServiceの依存関係を管理します。moduleファイルに対して、ControllerやServiceを登録することで、そのControllerやServiceが使えるようになります。
 //Appモジュールがルートとなり、下位に各機能のモジュールが存在するイメージです。
@@ -23,8 +27,14 @@ import { LoggerMiddleware } from './middleware/logger.middleware'; //これは�
       migrationsTableName: 'custom_migration_table',
       logging: false,
     }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'), // schemaファイルのパスを指定
+      sortSchema: true, // 生成されたschemaを自動でsortされるためのオプションをオンにする
+    }),
     TaskModule,
     UsersModule,
+    TodoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
